@@ -69,7 +69,7 @@
                 <p class="float-right" style="font-weight: bold;"> Ecoles </p>
                 </div>
               </div>
-              <a class="card-footer text-info clearfix small z-10" href="listCommandes.php">
+              <a class="card-footer text-info clearfix small z-10" href="gEcoles">
                 <h6 class="float-left">Voir</h6>
                 <h6 class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -88,7 +88,7 @@
                 <p class="float-right" style="font-weight: bold;">Sections</p>
                 </div>
               </div>
-              <a class="card-footer text-dark clearfix small z-10" href="listProduits.php">
+              <a class="card-footer text-dark clearfix small z-10" href="gSections">
                 <h6 class="float-left">Voir</h6>
                 <h6 class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -107,7 +107,7 @@
                 <p class="float-right" style="font-weight: bold;">Bibliothèques</p>
                 </div>
               </div>
-              <a class="card-footer text-success clearfix small z-10" href="gVente.php">
+              <a class="card-footer text-success clearfix small z-10" href="gBibliotheques">
                 <h6 class="float-left">Voir</h6>
                 <h6 class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -126,7 +126,7 @@
                 <p class="float-right" style="font-weight: bold;">Classes</p>
                 </div>
               </div>
-              <a class="card-footer text-warning clearfix small z-10" href="listClients.php">
+              <a class="card-footer text-warning clearfix small z-10" href="gClasses">
                 <h6 class="float-left">Voir</h6>
                 <h6 class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -145,7 +145,7 @@
                 <p class="float-right" style="font-weight: bold;">Elèves </p>
                 </div>
               </div>
-              <a class="card-footer text-danger clearfix small z-10" href="gCategories.php">
+              <a class="card-footer text-danger clearfix small z-10" href="listEleves">
                 <h6 class="float-left">Voir</h6>
                 <h6 class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -154,18 +154,18 @@
             </div>
           </div><br>
           <div class="col-md-3 spacer" >
-            <div class="card border-info o-hidden h-100">
-              <div class="card-body text-info" style="margin-bottom: -30px;">
+            <div class="card border-primary o-hidden h-100">
+              <div class="card-body text-primary" style="margin-bottom: -30px;">
                 <div class="float-left">
                   <i class="fas fa-fw fa-book" style="font-size: 55px;"></i>
                 </div>
                 <div class="float-right">
                   <h3 style="font-size: 35px;"><?php echo $res5['nbOuvrage'] ?></h3>
-                <p class="float-right" style="font-weight: bold;">Mails</p>
+                <p class="float-right" style="font-weight: bold;">Ouvrages</p>
                 </div>
               </div>
-              <a class="card-footer text-info clearfix small z-10" href="listMessages.php">
-                <h6 class="float-left">Puvrages</h6>
+              <a class="card-footer text-primary clearfix small z-10" href="gOuvrages">
+                <h6 class="float-left">Ouvrages</h6>
                 <h6 class="float-right">
                   <i class="fas fa-angle-right"></i>
                 </h6>
