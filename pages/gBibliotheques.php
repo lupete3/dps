@@ -1,5 +1,5 @@
 <?php 
-  $title = 'Gestion Bibliothèques';
+  $title = 'Gestion bibliothèques';
   require_once('include/headerAdmin.php'); 
 
  ?>
@@ -16,9 +16,9 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="admin.php">Tableau de Bord</a>
+            <a href="admin">Tableau de Bord</a>
           </li>
-          <li class="breadcrumb-item active">Ajouter une école</li>
+          <li class="breadcrumb-item active">Ajouter une bibliothèque</li>
         </ol>
         <div class="row">
           <div class="col-md-4">
@@ -26,7 +26,7 @@
        
         <!-- DataTables Example -->
             <div class="card ">
-              <div class="card-header text-uppercase">Ajouter une école</div>
+              <div class="card-header text-uppercase">Ajouter une bibliothèque</div>
                 <div class="card-body">
                   <div class="form-group">
                     <div class="form-row">
@@ -38,18 +38,26 @@
                       </div>
               
                       <div class="col-md-12">
-                        <input type="text" id="designation" name="designation" class="form-control" placeholder="Nom Ecole"  autocomplete="off"><br>
-                        <input type="text" id="adresse" name="adresse" class="form-control" placeholder="Adresse Ecole"  autocomplete="off"><br>
-                        <select class="form-control" id="typeEcole" required>
-                          <option value="" selected disabled>---Type---</option>
-                          <option value="ITM" >ITM</option>
-                          <option value="IEM" >IEM</option>
+                        <input type="text" id="libelleBibliotheque" name="libelleBibliotheque" class="form-control" placeholder="Libellé bibliothèque"  autocomplete="off"><br>
+                      </div>
+              
+                      <div class="col-md-12">
+                        <select class="form-control" required id="id_ecole">
+                          <option value="" selected disabled>---Ecole---</option>
+                          <?php 
+                            $list_ecoles = $model->getAllEcoles();
+
+                            if (!empty($list_ecoles)) { 
+                              foreach($list_ecoles as $rows):
+                          ?>
+                            <option value="<?php echo $rows['idEcole'] ?>"><?php echo $rows['designationEcole'] ?></option>
+
+                          <?php endforeach; 
+                          } ?>
                         </select><br>
-                        <input type="text" id="login" name="login" class="form-control" placeholder="Login Ecole"  autocomplete="off"><br>
-                        <input type="text" id="password" name="password" class="form-control" placeholder="Mot de passe école"  autocomplete="off"><br>
                       </div>
                       <div class="col-md-12">
-                        <button type="submit" name="add_ecole" id="add_ecole" class="btn btn-sm btn-success "><i class="fa fa-check-circle"></i> Enregistrer </button>
+                        <button type="submit" name="add_bibliotheque" id="add_bibliotheque" class="btn btn-sm btn-success "><i class="fa fa-check-circle"></i> Enregistrer </button>
                       </div>
                     </div>
                   </div>
@@ -62,7 +70,7 @@
             <div class="card mb-3">
               <div class="card-header">
                 <i class="fas fa-table"></i>
-                Liste des catégories <div class="float-right">     
+                Liste des bibliothèques <div class="float-right">     
               </div>
             </div>
             <div class="card-body">
@@ -71,11 +79,8 @@
                   <thead>
                     <tr>
                       <th>Id</th>
-                      <th>Nom Ecole</th>
-                      <th>Adresse Ecole</th>
-                      <th>Login</th>
-                      <th>Password</th>
-                      <th>Type</th>
+                      <th>Libellé bibliothèque</th>
+                      <th>Nom Ecole </th>
                       <th>Action</th>
                   </tr>
                   </thead>
@@ -95,11 +100,11 @@
           <div class="modal-dialog">
             <div class="modal-content panel-danger">
               <div class="modal-header">
-                <h4 class="modal-title" id="AddSectionLabel">Info école</h4>
+                <h4 class="modal-title" id="AddbibliothèqueLabel">Info bibliothèque</h4>
                 <button type="button" class="close btn " data-dismiss="modal" aria-hidden="true">&times;</button>
               </div>
               <div class="modal-body">
-                <form action="delete_agent.php" method="post" was-validate>
+                <form action="" method="post" was-validate>
                   <div class="form-group">
                   </div>
                   <div class="form-group " id="ed_data" >
@@ -123,57 +128,51 @@
 
       <script>
         
-        //Fonction pour afficher les catégories
-        function getEcoles(){
+        //Fonction pour afficher les bibliothèques
+        function getBibliotheque(){
 
-          let showAllEcoles = "showAllEcoles";
+          let showAllBibliotheques = "showAllBibliotheques";
 
           $.ajax({
-            url : "actions_ecole.php",
+            url : "actions_bibliotheque.php",
             type : "post",
-            data:{showAllEcoles:showAllEcoles},
+            data:{showAllBibliotheques:showAllBibliotheques},
             success : function(data){
               $("#data_list").html(data);
             }
           });
         }
 
-        //Appel fonction qui affiche les écoles de la base de données 
-        getEcoles();
+        //Appel fonction qui affiche les bibliothèques de la base de données 
+        getBibliotheque();
 
-        //Enregistrement des données de la table catégorie
-         $(document).on("click","#add_ecole", function(e){
+        //Enregistrement des données de la table bibliothèque
+        $(document).on("click","#add_bibliotheque", function(e){
           e.preventDefault();
 
-          let designation = $("#designation").val();
-          let adresse = $("#adresse").val();
-          let typeEcole = $("#typeEcole").val();
-          let login = $("#login").val();
-          let password = $("#password").val();
+          let libelleBibliotheque = $("#libelleBibliotheque").val();
+          let id_ecole = $("#id_ecole").val();
 
-          let add_ecole = $("#add_ecole").val();
+          let add_bibliotheque = $("#add_bibliotheque").val();
         
           $.ajax({
-            url: 'actions_ecole.php',
+            url: 'actions_bibliotheque.php',
             type: 'post',
             data: {
-              designation:designation,
-              adresse:adresse,
-              typeEcole:typeEcole,
-              login:login,
-              password:password,
-              add_ecole:add_ecole,
+              libelleBibliotheque:libelleBibliotheque,
+              id_ecole:id_ecole,
+              add_bibliotheque:add_bibliotheque,
             },
             success: function(response){
-              getEcoles();
+              getBibliotheque();
               $("#result").html(response);
               $("#form")[0].reset();
             },
           });     
         });
 
-         //Affichage fenetre modale de la catégorie
-         $(document).on("click","#editBtn", function(e){
+         //Affichage fenetre modale de l'bibliothèque
+        $(document).on("click","#editBtn", function(e){
           e.preventDefault();
 
           $("#editForm").modal("show");
@@ -181,7 +180,7 @@
           let id = $(this).attr("value");
 
           $.ajax({
-            url : "actions_ecole.php",
+            url : "actions_bibliotheque.php",
             type : "post",
             data : {
               id : id
@@ -192,58 +191,55 @@
 
           });
 
-         });
+        });
 
-         //Modification de la catégorie
-         $(document).on("click","#update", function(e){
+         //Modification de l'bibliothèque
+        $(document).on("click","#update", function(e){
           e.preventDefault();
 
             let idM = $("#idM").val();
-            let designationM = $("#designationM").val();
-            let adresseEcoleM = $("#adresseEcoleM").val();
-            let loginM = $("#loginM").val();
-            let passwordM = $("#passwordM").val();
-            let typeEcole = $("#typeEcoleM").val();
+            let libelleBibliothequeM = $("#libelleBibliothequeM").val();
+            let id_ecoleM = $("#id_ecoleM").val();
 
-            let editEcole = "editEcole";
+            let editBibliotheque = "editBibliotheque";
            
            $.ajax({
-              url:'actions_ecole.php',
+              url:'actions_bibliotheque.php',
               type : "post",
-              data : {idM:idM,designationM:designationM,adresseEcoleM:adresseEcoleM,loginM:loginM,passwordM:passwordM,typeEcole:typeEcole,editEcole:editEcole},
+              data : {idM:idM,libelleBibliothequeM:libelleBibliothequeM,id_ecoleM:id_ecoleM,editBibliotheque:editBibliotheque},
               success : function(data){
                 $("#editForm").modal("hide");
-                getEcoles();
+                getBibliotheque();
                 $("#result").html(data);
               }
 
            });
-         });
+        });
 
-         //Suppression de la catégorie
-         $(document).on("click","#deleteBtn", function(e){
+         //Suppression de l'bibliothèque
+        $(document).on("click","#deleteBtn", function(e){
           e.preventDefault();
 
-          if(window.confirm("Voulez-vous supprimer cette école ?")){
+          if(window.confirm("Voulez-vous supprimer cette bibliothèque ?")){
 
             let idS = $(this).attr("value");
-            let suppimEcole = "suppimEcole";
+            let supprimBibliotheque = "supprimBibliotheque";
 
             $.ajax({
-              url:'actions_ecole.php',
+              url:'actions_bibliotheque.php',
               type:'post',
               data:{
                 idS:idS,
-                suppimEcole:suppimEcole
+                supprimBibliotheque:supprimBibliotheque
               },
               success : function(data){
-                getEcoles();
+                getBibliotheque();
                 $("#result").html(data);
               }
             });
 
           }
-         });
+        });
       </script>
 
 <!-- bootstrap-wysiwyg -->

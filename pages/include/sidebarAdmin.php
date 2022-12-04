@@ -29,5 +29,11 @@
           <span>Gestion Classes </span>
         </a>
       </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="gBibliotheques">
+          <i class="fa fa-home"></i>
+          <span>Gestion Bibliothèques </span>
+        </a>
+      </li>
       
 </ul>

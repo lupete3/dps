@@ -466,6 +466,230 @@
 		}
 
 
+	    /*
+	    Les méthodes pour la gestion de la partie bibliothèques
+	    Insertion, Modification, Affichage, Suoppression
+	    */
+
+	    //Méthode pour Affichages des toutes les bibliothèques
+	    public function getAllBibliotheques(){
+
+	    	$data = null;
+
+	      	$query = "SELECT idBibliotheque,designationBibliotheque,id_ecole,designationEcole,ideCole FROM bibiotheque, ecole WHERE id_ecole = idEcole ORDER BY designationBibliotheque ASC ";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute();
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+	    //Methode pour tester si la biblioth-que n'existe pas encore dans le système
+	    public function bibliothequeExists($libelleBibliotheque,$id_ecole){
+
+	    	$query = "SELECT * FROM bibiotheque WHERE designationBibliotheque = ? AND id_ecole = ?";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$req = $sql->execute(array($libelleBibliotheque,$id_ecole));
+
+	      	$res = $sql->fetch(PDO::FETCH_ASSOC);
+
+	      	return $res;
+
+	    }
+
+	    //Méthode pour ajouter une bibliothèque dans la base de données
+	    public function insertBibliotheque($libelleBibliotheque,$id_ecole){
+
+	    	$query = "INSERT INTO bibiotheque (designationBibliotheque,id_ecole) VALUES (?,?)";
+
+	        $sql = $this->conn->prepare($query);
+
+	        if ($sql->execute(array($libelleBibliotheque,$id_ecole))) {          
+	        	return 1;
+
+	        }else {
+
+	        	return 2;
+	        }
+	    	
+		}
+
+		//Méthode pour séléctionner une seule bibliothèque
+	    public function getBibliothequeSingle($id){
+
+	    	$data = null;
+
+	      	$query = "SELECT idBibliotheque,designationBibliotheque,id_ecole,designationEcole,idECole FROM bibiotheque, ecole WHERE id_ecole = idEcole AND idBibliotheque = ?";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute(array($id));
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+	    //Méthode pour modifier une bibliothèque dans ala base de données
+	    public function editBibliotheque($libelleBibliothequeM,$id_ecoleM,$idM){
+
+	    	$query = "UPDATE bibiotheque SET designationBibliotheque = ?, id_ecole = ? WHERE idBibliotheque = ?";
+
+	        $sql = $this->conn->prepare($query);
+
+	        if ($sql->execute(array($libelleBibliothequeM,$id_ecoleM,$idM))){          
+
+	        	return 1;
+
+	        }else {
+
+	        	return 2;
+	        }
+	    	
+		}
+
+	    //Méthode pour supprimer une bibliothèque dans ala base de données
+	    public function deleteBibliotheque($id){
+
+	    	$query = "DELETE FROM bibiotheque WHERE idBibliotheque = ?";
+
+	        $sql = $this->conn->prepare($query);
+
+	        if ($sql->execute(array($id))) {          
+
+	        	return 1;
+
+	        }else {
+
+	        	return 2;
+	        }
+	    	
+		}
+
+
+	    /*
+	    Les méthodes pour la gestion de la partie bibliothèques
+	    Insertion, Modification, Affichage, Suoppression
+	    */
+
+	    //Méthode pour Affichages des toutes les bibliothèques
+	    public function getAllBibliotheques(){
+
+	    	$data = null;
+
+	      	$query = "SELECT idBibliotheque,designationBibliotheque,id_ecole,designationEcole,ideCole FROM bibiotheque, ecole WHERE id_ecole = idEcole ORDER BY designationBibliotheque ASC ";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute();
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+	    //Methode pour tester si la biblioth-que n'existe pas encore dans le système
+	    public function bibliothequeExists($libelleBibliotheque,$id_ecole){
+
+	    	$query = "SELECT * FROM bibiotheque WHERE designationBibliotheque = ? AND id_ecole = ?";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$req = $sql->execute(array($libelleBibliotheque,$id_ecole));
+
+	      	$res = $sql->fetch(PDO::FETCH_ASSOC);
+
+	      	return $res;
+
+	    }
+
+	    //Méthode pour ajouter une bibliothèque dans la base de données
+	    public function insertBibliotheque($libelleBibliotheque,$id_ecole){
+
+	    	$query = "INSERT INTO bibiotheque (designationBibliotheque,id_ecole) VALUES (?,?)";
+
+	        $sql = $this->conn->prepare($query);
+
+	        if ($sql->execute(array($libelleBibliotheque,$id_ecole))) {          
+	        	return 1;
+
+	        }else {
+
+	        	return 2;
+	        }
+	    	
+		}
+
+		//Méthode pour séléctionner une seule bibliothèque
+	    public function getBibliothequeSingle($id){
+
+	    	$data = null;
+
+	      	$query = "SELECT idBibliotheque,designationBibliotheque,id_ecole,designationEcole,idECole FROM bibiotheque, ecole WHERE id_ecole = idEcole AND idBibliotheque = ?";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute(array($id));
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+	    //Méthode pour modifier une bibliothèque dans ala base de données
+	    public function editOuvrage($titreM,$auteurM,$datePublicationM,$fichierM,$id_bibliothequeM,$idM){
+
+	    	$query = "UPDATE ouvrages SET designationBibliotheque = ?, id_ecole = ? WHERE idBibliotheque = ?";
+
+	        $sql = $this->conn->prepare($query);
+
+	        if ($sql->execute(array(titreM,$auteurM,$datePublicationM,$fichierM,$id_bibliothequeM,$idM))){          
+
+	        	return 1;
+
+	        }else {
+
+	        	return 2;
+	        }
+	    	
+		}
+
+	    //Méthode pour supprimer une ouvrage dans la base de données
+	    public function deleteOuvrage($id){
+
+	    	$query = "DELETE FROM ouvrages WHERE idOuvrage = ?";
+
+	        $sql = $this->conn->prepare($query);
+
+	        if ($sql->execute(array($id))) {          
+
+	        	return 1;
+
+	        }else {
+
+	        	return 2;
+	        }
+	    	
+		}
+
+
 
 		
 		

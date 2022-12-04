@@ -5,33 +5,30 @@
   //Appel de la classe Model
   $model = new Model;
 
-  //Bloc d'enregstrement d'une école
-  if (isset($_POST['add_ecole']) ){
+  //Bloc d'enregstrement d'une bibliotheque
+  if (isset($_POST['add_bibliotheque']) ){
 
-      if (!empty($_POST['designation'])) {
+      if (!empty($_POST['libelleBibliotheque'])&& !empty($_POST['id_ecole'])) {
 
-        $designation = $_POST['designation'];
-        $adresse = $_POST['adresse'];
-        $typeEcole = $_POST['typeEcole'];
-        $login = $_POST['login'];
-        $password = $_POST['password'];
+        $libelleBibliotheque = $_POST['libelleBibliotheque'];
+        $id_ecole = $_POST['id_ecole'];
 
-        $ecole_exist = $model->ecoleExists($designation,$login);
+        $bibliotheque_exist = $model->bibliothequeExists($libelleBibliotheque,$id_ecole);
 
-        if (!empty($ecole_exist)) {
+        if (!empty($bibliotheque_exist)) {
           echo '
             <div class="alert alert-info alert-dismissible" id="msg" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h6>Cette école existe déjà dans le système</h6>
+                <h6>Cette bibliotheque existe déjà dans le système</h6>
             </div> ';
         }else{
 
-          if ($add_data = $model->insertEcole($designation,$adresse,$typeEcole,$login,$password)) {
+          if ($add_data = $model->insertBibliotheque($libelleBibliotheque,$id_ecole)) {
                 
             echo '
               <div class="alert alert-success alert-dismissible" id="msg" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h6>Ecole ajoutée avec succès</h6>
+                  <h6>Bibliotheque ajoutée avec succès</h6>
               </div> ';
 
           }else{
@@ -53,12 +50,12 @@
           </div> ';
       }
     
-  //Bloc d'affichage du détail d'une seule école séléctionnée  
+  //Bloc d'affichage du détail d'une seule bibliotheque séléctionnée  
   }elseif(isset($_POST['id']) && !empty($_POST['id'])){
     
     $id = $_POST['id'];
 
-    $row = $model->getEcoleSingle($id);
+    $row = $model->getBibliothequeSingle($id);
 
     if (!empty($row)) { 
       foreach($row as $data):
@@ -66,57 +63,50 @@
 
       <form action="" method="post" was-validate>
         <div class="form-group">
-          <input type="hidden" name="idM" value="<?php echo $data['idEcole']; ?>" id="idM" class="form-control" placeholder="Id" required="required" >
+          <input type="hidden" name="idM" value="<?php echo $data['idBibliotheque']; ?>" id="idM" class="form-control" placeholder="Id" required="required" >
         </div>
         <div class="form-group">
-          <label for="nom">Designation</label>
-          <input type="text" name="nom" value="<?php echo $data['designationEcole']; ?>" id="designationM" class="form-control" placeholder="Designation" required="required" >
+          <label for="libelleBibliothequeM">Libellé bibliotheque</label>
+          <input type="text" name="libelleBibliothequeM" value="<?php echo $data['designationBibliotheque']; ?>" id="libelleBibliothequeM" class="form-control" placeholder="Libellé" required="required" >
         </div>
-        <div class="form-group">
-          <label for="email">Adresse</label>
-          <input type="text" name="adresseEcoleM" value="<?php echo $data['adresseEcole']; ?>" id="adresseEcoleM" class="form-control" placeholder="Id" required="required" >
-        </div>
-        <div class="form-group">
-          <label for="email">Login</label>
-          <input type="text" name="loginM" value="<?php echo $data['login']; ?>" id="loginM" class="form-control" placeholder="Login ecole" required="required" >
-        </div>
-        <div class="form-group">
-          <label for="email">Mot de passe</label>
-          <input type="text" name="Détail" value="<?php echo $data['password']; ?>" id="passwordM" class="form-control" placeholder="Mot de passe" required="required" >
-        </div>
-        <div class="form-group">
-          <label for="email">Type</label>
-          <select class="form-control" id="typeEcoleM" required>
-            <option value="<?php echo $data['type']; ?>" ><?php echo $data['type']; ?></option>
-            <option value="ITM" >ITM</option>
-            <option value="IEM" >IEM</option>
-          </select><br>
+        <div class="form-group ">
+          <label for="id_ecoleM">Ecole</label>
+          <select class="form-control" id="id_ecoleM" required>
+            <option value="<?php echo $data['idECole']; ?>" ><?php echo $data['designationEcole']; ?></option>
+            <?php 
+              $list_ecoles = $model->getAllEcoles();
+
+              if (!empty($list_ecoles)) { 
+                foreach($list_ecoles as $res):
+            ?>
+              <option value="<?php echo $res['idEcole'] ?>"><?php echo $res['designationEcole'] ?></option>
+
+            <?php endforeach; 
+            } ?>
+          </select>
         </div>
         </div>
 
     <?php endforeach; 
     }
 
-    //Bloc d'affichage des toutes les écoles de la base de données 
+    //Bloc d'affichage des toutes les bibliotheques de la base de données 
   
-  //Bloc affichage de toutes les écoles 
-  }elseif (isset($_POST['showAllEcoles']) && $_POST['showAllEcoles'] === "showAllEcoles") {
-    $list_ecoles = $model->getAllEcoles();
+  //Bloc affichage de toutes les bibliotheques 
+  }elseif (isset($_POST['showAllBibliotheques']) && $_POST['showAllBibliotheques'] === "showAllBibliotheques") {
+    $list_bibliotheques = $model->getAllBibliotheques();
 
-    if (!empty($list_ecoles)) {
+    if (!empty($list_bibliotheques)) {
 
-      foreach ($list_ecoles as $res) { ?>
+      foreach ($list_bibliotheques as $res) { ?>
                                  
         <tr style="font-size: 13px;">
-          <td><?php echo $res['idEcole'] ?></td>
+          <td><?php echo $res['idBibliotheque'] ?></td>
+          <td><?php echo $res['designationBibliotheque'] ?></td>
           <td><?php echo $res['designationEcole'] ?></td>
-          <td><?php echo $res['adresseEcole'] ?></td>
-          <td><?php echo $res['login'] ?></td>
-          <td><?php echo $res['password'] ?></td>
-          <td><?php echo $res['type'] ?></td>
           <td>
-            <a href="" id="editBtn" value="<?php echo $res['idEcole'] ?>" class="btn btn-primary btn-sm " title=""><i class="fa fa-edit"></i></a> 
-            <a href="" id="deleteBtn" value="<?php echo $res['idEcole'] ?>" class="btn btn-danger btn-sm " title=""><i class="fa fa-trash"></i></a> 
+            <a href="" id="editBtn" value="<?php echo $res['idBibliotheque'] ?>" class="btn btn-primary btn-sm " title=""><i class="fa fa-edit"></i></a> 
+            <a href="" id="deleteBtn" value="<?php echo $res['idBibliotheque'] ?>" class="btn btn-danger btn-sm " title=""><i class="fa fa-trash"></i></a> 
           </td>
         </tr>
       <?php  
@@ -131,27 +121,24 @@
       ';
     }
 
-    //Bloc de modification des informations d'une école
+    //Bloc de modification des informations d'une bibliotheque
 
   
-  //Bloc modification d'une école
-  }elseif (isset($_POST['editEcole']) && $_POST['editEcole'] === "editEcole" && isset($_POST['idM'])){
+  //Bloc modification d'une bibliotheque
+  }elseif (isset($_POST['editBibliotheque']) && $_POST['editBibliotheque'] === "editBibliotheque" && isset($_POST['idM'])){
 
-    if (!empty(isset($_POST['idM'])) && !empty($_POST['designationM']) && !empty($_POST['adresseEcoleM'])&& !empty($_POST['loginM'])&& !empty($_POST['passwordM'])&& !empty($_POST['typeEcole'])) {
+    if (!empty(isset($_POST['idM'])) && !empty($_POST['libelleBibliothequeM'])&& !empty($_POST['id_ecoleM']) ) {
 
         $idM = $_POST['idM'];
-        $designationM = $_POST['designationM'];
-        $adresseEcoleM = $_POST['adresseEcoleM'];
-        $loginM = $_POST['loginM'];
-        $passwordM = $_POST['passwordM'];
-        $typeEcole = $_POST['typeEcole'];
+        $libelleBibliothequeM = $_POST['libelleBibliothequeM'];
+        $id_ecoleM = $_POST['id_ecoleM'];
 
-        if ($edit_data = $model->editEcole($designationM,$adresseEcoleM,$loginM,$passwordM,$typeEcole,$idM)) {
+        if ($edit_data = $model->editBibliotheque($libelleBibliothequeM,$id_ecoleM,$idM)) {
                 
             echo '
               <div class="alert alert-success alert-dismissible" id="msg" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h6>Ecole modifiée avec succès</h6>
+                  <h6>bibliotheque modifiée avec succès</h6>
               </div> ';
 
         }else{
@@ -174,19 +161,19 @@
 
     //Blog de suppression d'une écokle dans la base de données 
   
-  //Bloc suppression d'une école
-  }elseif (isset($_POST['suppimEcole']) && $_POST['suppimEcole'] === "suppimEcole" && isset($_POST['idS'])){
+  //Bloc suppression d'une bibliotheque
+  }elseif (isset($_POST['supprimBibliotheque']) && $_POST['supprimBibliotheque'] === "supprimBibliotheque" && isset($_POST['idS'])){
 
       if (!empty($_POST['idS']) ) {
 
         $id = $_POST['idS'];
 
-        if ($delete_data = $model->deleteEcole($id)) {
+        if ($delete_data = $model->deleteBibliotheque($id)) {
                 
           echo '
             <div class="alert alert-success alert-dismissible" id="msg" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h6>Ecole supprimée avec succès</h6>
+                <h6>bibliotheque supprimée avec succès</h6>
             </div> ';
 
         }else{
@@ -203,7 +190,7 @@
         echo '
           <div class="alert alert-danger alert-dismissible" id="msg" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h6>Séléctionner une école valide</h6>
+              <h6>Séléctionner une bibliotheque valide</h6>
           </div> ';
       }
       
