@@ -35,5 +35,11 @@
           <span>Gestion Bibliothèques </span>
         </a>
       </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="gOuvrages">
+          <i class="fa fa-book"></i>
+          <span>Gestion Ouvrages </span>
+        </a>
+      </li>
       
 </ul>

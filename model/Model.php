@@ -579,16 +579,16 @@
 
 
 	    /*
-	    Les méthodes pour la gestion de la partie bibliothèques
+	    Les méthodes pour la gestion de la partie ouvrages
 	    Insertion, Modification, Affichage, Suoppression
 	    */
 
-	    //Méthode pour Affichages des toutes les bibliothèques
-	    public function getAllBibliotheques(){
+	    //Méthode pour Affichages des tous les ouvvrages de la base de données
+	    public function getAllOuvrages(){
 
 	    	$data = null;
 
-	      	$query = "SELECT idBibliotheque,designationBibliotheque,id_ecole,designationEcole,ideCole FROM bibiotheque, ecole WHERE id_ecole = idEcole ORDER BY designationBibliotheque ASC ";
+	      	$query = "SELECT idOuvrage,titre,auteur,datePublication,fichier,id_bibliotheque,designationBibliotheque,idBibliotheque FROM ouvrages, bibiotheque WHERE id_bibliotheque = idBibliotheque ORDER BY titre ASC ";
 
 	      	$sql = $this->conn->prepare($query);
 
@@ -602,14 +602,14 @@
 	      	return $data;
 	    }
 
-	    //Methode pour tester si la biblioth-que n'existe pas encore dans le système
-	    public function bibliothequeExists($libelleBibliotheque,$id_ecole){
+	    //Methode pour tester si l'ouvrage n'existe pas encore dans le système
+	    public function ouvrageExists($titre,$auteur,$datePublication,$id_bibliotheque){
 
-	    	$query = "SELECT * FROM bibiotheque WHERE designationBibliotheque = ? AND id_ecole = ?";
+	    	$query = "SELECT * FROM ouvrages WHERE titre = ? AND auteur = ? AND datePublication = ? AND id_bibliotheque = ?";
 
 	      	$sql = $this->conn->prepare($query);
 
-	      	$req = $sql->execute(array($libelleBibliotheque,$id_ecole));
+	      	$req = $sql->execute(array($titre,$auteur,$datePublication,$id_bibliotheque));
 
 	      	$res = $sql->fetch(PDO::FETCH_ASSOC);
 
@@ -617,14 +617,14 @@
 
 	    }
 
-	    //Méthode pour ajouter une bibliothèque dans la base de données
-	    public function insertBibliotheque($libelleBibliotheque,$id_ecole){
+	    //Méthode pour ajouter un ovrage dans la base de données 
+	    public function insertOuvrage($titre,$auteur,$datePublication,$fichier,$id_bibliotheque){
 
-	    	$query = "INSERT INTO bibiotheque (designationBibliotheque,id_ecole) VALUES (?,?)";
+	    	$query = "INSERT INTO ouvrages (titre,auteur,datePublication,fichier,id_bibliotheque) VALUES (?,?,?,?,?)";
 
 	        $sql = $this->conn->prepare($query);
 
-	        if ($sql->execute(array($libelleBibliotheque,$id_ecole))) {          
+	        if ($sql->execute(array($titre,$auteur,$datePublication,$fichier,$id_bibliotheque))) {          
 	        	return 1;
 
 	        }else {
@@ -634,12 +634,12 @@
 	    	
 		}
 
-		//Méthode pour séléctionner une seule bibliothèque
-	    public function getBibliothequeSingle($id){
+		//Méthode pour séléctionner un seul ouvrage 
+	    public function getOuvrageSingle($id){
 
 	    	$data = null;
 
-	      	$query = "SELECT idBibliotheque,designationBibliotheque,id_ecole,designationEcole,idECole FROM bibiotheque, ecole WHERE id_ecole = idEcole AND idBibliotheque = ?";
+	      	$query = "SELECT idOuvrage,titre,auteur,datePublication,fichier,id_bibliotheque,designationBibliotheque,idBibliotheque FROM ouvrages, bibiotheque WHERE id_bibliotheque = idBibliotheque AND idOuvrage = ?";
 
 	      	$sql = $this->conn->prepare($query);
 
@@ -653,14 +653,14 @@
 	      	return $data;
 	    }
 
-	    //Méthode pour modifier une bibliothèque dans ala base de données
-	    public function editOuvrage($titreM,$auteurM,$datePublicationM,$fichierM,$id_bibliothequeM,$idM){
+	    //Méthode pour modifier un ouvrage dans la base de données 
+	    public function editOuvrage($titreM,$auteurM,$datePublicationM,$id_bibliothequeM,$idM){
 
-	    	$query = "UPDATE ouvrages SET designationBibliotheque = ?, id_ecole = ? WHERE idBibliotheque = ?";
+	    	$query = "UPDATE ouvrages SET titre = ?, auteur = ?, datePublication = ?, id_bibliotheque = ? WHERE idOuvrage = ?";
 
 	        $sql = $this->conn->prepare($query);
 
-	        if ($sql->execute(array(titreM,$auteurM,$datePublicationM,$fichierM,$id_bibliothequeM,$idM))){          
+	        if ($sql->execute(array($titreM,$auteurM,$datePublicationM,$id_bibliothequeM,$idM))){          
 
 	        	return 1;
 
@@ -671,7 +671,7 @@
 	    	
 		}
 
-	    //Méthode pour supprimer une ouvrage dans la base de données
+	    //Méthode pour supprimer un ouvrage dans la base de données
 	    public function deleteOuvrage($id){
 
 	    	$query = "DELETE FROM ouvrages WHERE idOuvrage = ?";
