@@ -266,6 +266,25 @@
 	      	return $data;
 	    }
 
+	    //Méthode pour Affichages des toutes les sections selon une école
+	    public function getAllSectionsByEcole($id){
+
+	    	$data = null;
+
+	      	$query = "SELECT idSection,designationSection,idEcole,designationEcole,id_ecole FROM section, ecole WHERE id_ecole = idEcole AND id_ecole = ? ORDER BY designationSection ASC";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute(array($id));
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
 	    //Methode pour tester si la section n'existe pas encore dans le système
 	    public function sectionExists($libelleSection,$id_ecole){
 
@@ -369,6 +388,25 @@
 	      	$sql = $this->conn->prepare($query);
 
 	      	$sql->execute();
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+	    //Méthode pour Affichages des toutes les classes selon l'école
+	    public function getAllClassesByEcole($id){
+
+	    	$data = null;
+
+	      	$query = "SELECT idClasse,designationClasse,id_section,designationSection,designationEcole,idSection FROM classe, section, ecole WHERE id_section = idSection AND id_ecole = idEcole AND id_ecole = ? ORDER BY designationSection ASC ";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute(array($id));
 
 	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
 
@@ -690,6 +728,194 @@
 		}
 
 
+	    /*
+	    Les méthodes pour la gestion de la partie inscription
+	    Insertion, Modification, Affichage, Suoppression
+	    */
+
+	    //Méthode pour Affichages des toutes les inscriotions de la base de données
+	    public function getAllInscriptions(){
+
+	    	$data = null;
+
+	      	$query = "SELECT idInscription,dateInscription,statut,id_ecole_sec,id_eleve,id_lasse,id_edition,id_sesction_sec,designationSection,nomEleve,postnomEleve,designationClasse,libelle,designationEcole FROM inscription,ecole,section,classe,edition,eleve WHERE id_ecole_sec = idSection AND id_eleve = idEleve AND id_lasse = idClasse AND id_edition = idEdition AND id_sesction_sec = idSection AND id_ecole = idEcole ORDER BY dateInscription DESC ";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute();
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+
+	    //Méthode pour Affichages des toutes les inscriotions de la base de données
+	    public function getAllEleves(){
+
+	    	$data = null;
+
+	      	$query = "SELECT * FROM eleve ORDER BY nomEleve DESC ";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute();
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+	    //Méthode pour Affichages des toutes les inscriptions d'une école
+	    public function getAllInscriptionsByEcole($idEcole){
+
+	    	$data = null;
+
+	      	$query = "SELECT a.idInscription,a.dateInscription,a.statut,a.id_ecole_sec,a.id_eleve,a.id_lasse,a.id_edition,a.id_sesction_sec,b.designationSection,c.nomEleve,c.postnomEleve,d.designationClasse,e.libelle,f.designationEcole FROM inscription as a,ecole as f,section as b,classe as d,edition as e,eleve as c WHERE a.id_ecole_sec = f.idEcole AND a.id_eleve = c.idEleve AND a.id_lasse = d.idClasse AND a.id_edition = e.idEdition AND a.id_sesction_sec = b.idSection AND a.id_ecole_sec = ? ORDER BY a.dateInscription DESC ";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute(array($idEcole));
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+	    //Méthode pour Affichages des toutes les inscriptions selon une édition 
+	    public function getAllInscriptionsByEdition($idEdition){
+
+	    	$data = null;
+
+	      	$query = "SELECT a.idInscription,a.dateInscription,a.statut,a.id_ecole_sec,a.id_eleve,a.id_lasse,a.id_edition,a.id_sesction_sec,b.designationSection,c.nomEleve,c.postnomEleve,d.designationClasse,e.libelle,f.designationEcole FROM inscription as a,ecole as f,section as b,classe as d,edition as e,eleve as c WHERE a.id_ecole_sec = f.idEcole AND a.id_eleve = c.idEleve AND a.id_lasse = d.idClasse AND a.id_edition = e.idEdition AND a.id_sesction_sec = b.idSection AND a.id_edition = ? ORDER BY a.dateInscription DESC ";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute(array($idEdition));
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+
+	    //Méthode pour Affichages des toutes les inscriptions selon l'école et une édition 
+	    public function getAllInscriptionsByEcoleAndEdition($idEcole,$idEdition){
+
+	    	$data = null;
+
+	      	$query = "SELECT a.idInscription,a.dateInscription,a.statut,a.id_ecole_sec,a.id_eleve,a.id_lasse,a.id_edition,a.id_sesction_sec,b.designationSection,c.nomEleve,c.postnomEleve,d.designationClasse,e.libelle,f.designationEcole FROM inscription as a,ecole as f,section as b,classe as d,edition as e,eleve as c WHERE a.id_ecole_sec = f.idEcole AND a.id_eleve = c.idEleve AND a.id_lasse = d.idClasse AND a.id_edition = e.idEdition AND a.id_sesction_sec = b.idSection AND a.id_ecole_sec = ? AND a.id_edition = ? ORDER BY a.dateInscription DESC ";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute(array($idEcole,$idEdition));
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+	    //Methode pour tester si l'inscription n'existe pas encore dans le système
+	    public function inscriptionExists($id_ecole,$id_classe,$id_eleve,$id_edition,$id_section){
+
+	    	$query = "SELECT * FROM inscription WHERE id_ecole_sec = ? AND id_lasse = ? AND id_eleve = ? AND id_edition = ? AND id_sesction_sec = ?";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$req = $sql->execute(array($id_ecole,$id_classe,$id_eleve,$id_edition,$id_section));
+
+	      	$res = $sql->fetch(PDO::FETCH_ASSOC);
+
+	      	return $res;
+
+	    }
+
+	    //Méthode pour ajouter une inscrioyion dans la base de données
+	    public function insertInscription($dateInscription,$statut,$id_ecole,$id_eleve,$id_classe,$id_edition,$id_section){
+
+	    	$query = "INSERT INTO inscription (dateInscription,statut,id_ecole_sec,id_eleve,id_lasse,id_edition,id_sesction_sec) VALUES (?,?,?,?,?,?,?)";
+
+	        $sql = $this->conn->prepare($query);
+
+	        if ($sql->execute(array($dateInscription,$statut,$id_ecole,$id_eleve,$id_classe,$id_edition,$id_section))) {          
+	        	return 1;
+
+	        }else {
+
+	        	return 2;
+	        }
+	    	
+		}
+
+		//Méthode pour séléctionner une seule inscription
+	    public function getInscriptionSingle($id){
+
+	    	$data = null;
+
+	      	$query = "SELECT a.idInscription,a.dateInscription,a.statut,a.id_ecole_sec,a.id_eleve,a.id_lasse,a.id_edition,a.id_sesction_sec,b.designationSection,c.nomEleve,c.postnomEleve,d.designationClasse,e.libelle,f.designationEcole FROM inscription as a,ecole as f,section as b,classe as d,edition as e,eleve as c WHERE a.id_ecole_sec = f.idEcole AND a.id_eleve = c.idEleve AND a.id_lasse = d.idClasse AND a.id_edition = e.idEdition AND a.id_sesction_sec = b.idSection AND a.idInscription = ?";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute(array($id));
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+	    //Méthode pour modifier une inscription dans la base de données 
+	    public function editInscription($id_ecoleM,$id_eleveM,$id_classeM,$id_editionM,$id_sectionM,$statutM,$idM){
+
+	    	$query = "UPDATE inscription SET id_ecole_sec = ?, id_eleve = ?, id_lasse = ?, id_edition = ?, id_sesction_sec = ?, statut = ? WHERE idInscription = ?";
+
+	        $sql = $this->conn->prepare($query);
+
+	        if ($sql->execute(array($id_ecoleM,$id_eleveM,$id_classeM,$id_editionM,$id_sectionM,$statutM,$idM))){          
+
+	        	return 1;
+
+	        }else {
+
+	        	return 2;
+	        }
+	    	
+		}
+
+	    //Méthode pour supprimer une inscriotion dans la base de données
+	    public function deleteInscription($id){
+
+	    	$query = "DELETE FROM inscription WHERE idInscription = ?";
+
+	        $sql = $this->conn->prepare($query);
+
+	        if ($sql->execute(array($id))) {          
+
+	        	return 1;
+
+	        }else {
+
+	        	return 2;
+	        }
+	    	
+		}
 
 		
 		

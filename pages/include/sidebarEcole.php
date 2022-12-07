@@ -6,9 +6,9 @@
         </a>
       </li>
       <li class="nav-item ">
-        <a class="nav-link" href="gEcoles">
-          <i class="fa fa-home"></i>
-          <span>Gestion Ecoles </span>
+        <a class="nav-link" href="gInscriptions">
+          <i class="fa fa-user"></i>
+          <span>Gestion Inscription </span>
         </a>
       </li>
       <li class="nav-item ">
