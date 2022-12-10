@@ -63,6 +63,9 @@
                       <div class="col-md-12">
                         <button type="submit" name="log_in" id="add_approv" class="btn btn-md btn-info "><i class="fa fa-lock"></i> Connexion </button>
                       </div>
+                      <div class="col-md-12 mt-2">
+                        <p><a href="inscription"><i class="fa fa-user"></i> Créer un compte élève</a></p>
+                      </div>
                     </div>
                   </div>
                 </form>

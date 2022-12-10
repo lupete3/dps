@@ -752,26 +752,6 @@
 	      	return $data;
 	    }
 
-
-	    //Méthode pour Affichages des toutes les inscriotions de la base de données
-	    public function getAllEleves(){
-
-	    	$data = null;
-
-	      	$query = "SELECT * FROM eleve ORDER BY nomEleve DESC ";
-
-	      	$sql = $this->conn->prepare($query);
-
-	      	$sql->execute();
-
-	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
-
-	        	$data[] = $res;
-	      	}
-
-	      	return $data;
-	    }
-
 	    //Méthode pour Affichages des toutes les inscriptions d'une école
 	    public function getAllInscriptionsByEcole($idEcole){
 
@@ -903,6 +883,112 @@
 	    public function deleteInscription($id){
 
 	    	$query = "DELETE FROM inscription WHERE idInscription = ?";
+
+	        $sql = $this->conn->prepare($query);
+
+	        if ($sql->execute(array($id))) {          
+
+	        	return 1;
+
+	        }else {
+
+	        	return 2;
+	        }
+	    	
+		}
+
+	    //Methode pour tester si l'inscription n'existe pas encore dans le système
+	    public function eleveExists($nomM,$postnomM,$sexeM,$dateNaissanceM){
+
+	    	$query = "SELECT * FROM eleve WHERE nomEleve = ? AND postnomEleve = ? AND sexe = ? AND dateNaissance = ? ";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$req = $sql->execute(array($nomM,$postnomM,$sexeM,$dateNaissanceM));
+
+	      	$res = $sql->fetch(PDO::FETCH_ASSOC);
+
+	      	return $res;
+
+	    }
+
+	    //Méthode pour Affichages des toutes les inscriotions de la base de données
+	    public function getAllEleves(){
+
+	    	$data = null;
+
+	      	$query = "SELECT * FROM eleve ORDER BY nomEleve DESC ";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute();
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+	    //Méthode pour ajouter un élève dans la base de données
+	    public function insertEleve($nomM,$postnomM,$sexeM,$dateNaissanceM,$lieuNaissanceM,$adresseM,$telephoneM,$loginM,$passwordM){
+
+	    	$query = "INSERT INTO eleve (nomEleve,postnomEleve,sexe,dateNaissance,lieuNaissance,adresseEleve,telephoneEleve,login,password) VALUES (?,?,?,?,?,?,?,?,?)";
+
+	        $sql = $this->conn->prepare($query);
+
+	        if ($sql->execute(array($nomM,$postnomM,$sexeM,$dateNaissanceM,$lieuNaissanceM,$adresseM,$telephoneM,$loginM,$passwordM))) {          
+	        	return 1;
+
+	        }else {
+
+	        	return 2;
+	        }
+	    	
+		}
+
+		//Méthode pour séléctionner un seul élève
+	    public function getEleveSingle($id){
+
+	    	$data = null;
+
+	      	$query = "SELECT * FROM eleve WHERE idEleve = ?";
+
+	      	$sql = $this->conn->prepare($query);
+
+	      	$sql->execute(array($id));
+
+	      	while($res = $sql->fetch(PDO::FETCH_ASSOC)){
+
+	        	$data[] = $res;
+	      	}
+
+	      	return $data;
+	    }
+
+	    //Méthode pour modifier un élève dans la base de données 
+	    public function editEleve($nomM,$postnomM,$sexeM,$dateNaissanceM,$lieuNaissanceM,$adresseM,$telephoneM,$loginM,$passwordM,$idM){
+
+	    	$query = "UPDATE eleve SET nomEleve = ?, postnomEleve = ?, sexe = ?, dateNaissance = ?, lieuNaissance = ?, adresseEleve = ?, telephoneEleve = ?, login = ?, password = ? WHERE idEleve = ?";
+
+	        $sql = $this->conn->prepare($query);
+
+	        if ($sql->execute(array($nomM,$postnomM,$sexeM,$dateNaissanceM,$lieuNaissanceM,$adresseM,$telephoneM,$loginM,$passwordM,$idM))){          
+
+	        	return 1;
+
+	        }else {
+
+	        	return 2;
+	        }
+	    	
+		}
+
+	    //Méthode pour supprimer un elève dans la base de données
+	    public function deleteEleve($id){
+
+	    	$query = "DELETE FROM eleve WHERE idEleve = ?";
 
 	        $sql = $this->conn->prepare($query);
 

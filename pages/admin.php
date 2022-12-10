@@ -145,7 +145,7 @@
                 <p class="float-right" style="font-weight: bold;">Elèves </p>
                 </div>
               </div>
-              <a class="card-footer text-danger clearfix small z-10" href="listEleves">
+              <a class="card-footer text-danger clearfix small z-10" href="gEleves">
                 <h6 class="float-left">Voir</h6>
                 <h6 class="float-right">
                   <i class="fas fa-angle-right"></i>

@@ -41,5 +41,11 @@
           <span>Gestion Ouvrages </span>
         </a>
       </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="gEleves">
+          <i class="fa fa-users"></i>
+          <span>Gestion Elèves </span>
+        </a>
+      </li>
       
 </ul>
